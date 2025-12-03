@@ -14,14 +14,14 @@ const Footer = () => {
     <>
       <footer>
         <div>
-          <img src="/logo.png" alt="logo" />
+          <img src="/NextHire.png" alt="logo" />
         </div>
         <div>
           <h4>Support</h4>
           <ul>
             <li></li>
             <li>Jupyer@gmail.com</li>
-            <li>+92 8654678767887</li>
+            <li>+91 76543456789</li>
           </ul>
         </div>
 

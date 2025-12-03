@@ -15,11 +15,15 @@ config({ path: "./config/config.env" });
 
 // Updated allowed origins
 const allowedOrigins = [
+  process.env.FRONTEND_URL,
   "http://localhost:5173",
   "http://localhost:3000",
   "https://localhost:5173",
   // Add your frontend production URL here when you deploy
 ];
+if (process.env.VERCEL_URL) {
+  allowedOrigins.push(`https://${process.env.VERCEL_URL}`);
+}
 
 // CORS configuration
 app.use(
