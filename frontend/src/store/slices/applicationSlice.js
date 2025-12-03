@@ -1,6 +1,43 @@
 import { createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 
+// Create axios instance for application operations
+const applicationApi = axios.create({
+  baseURL: "https://next-hire-an-online-job-portal-37t9-7f5ws4gd2.vercel.app",
+  withCredentials: true,
+  timeout: 10000,
+  headers: {
+    'Content-Type': 'application/json',
+  }
+});
+
+// Add request interceptor for debugging
+applicationApi.interceptors.request.use(
+  (config) => {
+    console.log(`Making ${config.method?.toUpperCase()} request to: ${config.baseURL}${config.url}`);
+    return config;
+  },
+  (error) => {
+    console.error('Request error:', error);
+    return Promise.reject(error);
+  }
+);
+
+// Add response interceptor for better error handling
+applicationApi.interceptors.response.use(
+  (response) => {
+    console.log('Response received:', response.status);
+    return response;
+  },
+  (error) => {
+    console.error('Response error:', error);
+    if (error.code === 'ERR_NETWORK') {
+      console.error('Network error - check if backend server is running');
+    }
+    return Promise.reject(error);
+  }
+);
+
 const applicationSlice = createSlice({
   name: "applications",
   initialState: {
@@ -83,8 +120,8 @@ const applicationSlice = createSlice({
 export const fetchEmployerApplications = () => async (dispatch) => {
   dispatch(applicationSlice.actions.requestForAllApplications());
   try {
-    const response = await axios.get(
-      `http://localhost:4000/api/v1/application/employer/getall`,
+    const response = await applicationApi.get(
+      `/api/v1/application/employer/getall`,
       {
         withCredentials: true,
       }
@@ -107,8 +144,8 @@ export const fetchEmployerApplications = () => async (dispatch) => {
 export const fetchJobSeekerApplications = () => async (dispatch) => {
   dispatch(applicationSlice.actions.requestForMyApplications());
   try {
-    const response = await axios.get(
-      `http://localhost:4000/api/v1/application/jobseeker/getall`,
+    const response = await applicationApi.get(
+      `/api/v1/application/jobseeker/getall`,
       {
         withCredentials: true,
       }
@@ -131,8 +168,8 @@ export const fetchJobSeekerApplications = () => async (dispatch) => {
 export const postApplication = (data, jobId) => async (dispatch) => {
   dispatch(applicationSlice.actions.requestForPostApplication());
   try {
-    const response = await axios.post(
-      `http://localhost:4000/api/v1/application/post/${jobId}`,
+    const response = await applicationApi.post(
+      `/api/v1/application/post/${jobId}`,
       data,
       {
         withCredentials: true,
@@ -155,8 +192,8 @@ export const postApplication = (data, jobId) => async (dispatch) => {
 export const deleteApplication = (id) => async (dispatch) => {
   dispatch(applicationSlice.actions.requestForDeleteApplication());
   try {
-    const response = await axios.delete(
-      `http://localhost:4000/api/v1/application/delete/${id}`,
+    const response = await applicationApi.delete(
+      `/api/v1/application/delete/${id}`,
       { withCredentials: true }
     );
     dispatch(

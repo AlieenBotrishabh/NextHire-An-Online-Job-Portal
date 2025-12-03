@@ -1,6 +1,43 @@
 import { createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 
+// Create axios instance for profile update operations
+const updateProfileApi = axios.create({
+  baseURL: "https://next-hire-an-online-job-portal-37t9-7f5ws4gd2.vercel.app",
+  withCredentials: true,
+  timeout: 10000,
+  headers: {
+    'Content-Type': 'application/json',
+  }
+});
+
+// Add request interceptor for debugging
+updateProfileApi.interceptors.request.use(
+  (config) => {
+    console.log(`Making ${config.method?.toUpperCase()} request to: ${config.baseURL}${config.url}`);
+    return config;
+  },
+  (error) => {
+    console.error('Request error:', error);
+    return Promise.reject(error);
+  }
+);
+
+// Add response interceptor for better error handling
+updateProfileApi.interceptors.response.use(
+  (response) => {
+    console.log('Response received:', response.status);
+    return response;
+  },
+  (error) => {
+    console.error('Response error:', error);
+    if (error.code === 'ERR_NETWORK') {
+      console.error('Network error - check if backend server is running');
+    }
+    return Promise.reject(error);
+  }
+);
+
 const updateProfileSlice = createSlice({
   name: "updateProfile",
   initialState: {
@@ -46,8 +83,8 @@ const updateProfileSlice = createSlice({
 export const updateProfile = (data) => async (dispatch) => {
   dispatch(updateProfileSlice.actions.updateProfileRequest());
   try {
-    const response = await axios.put(
-      "http://localhost:4000/api/v1/user/update/profile",
+    const response = await updateProfileApi.put(
+      "/api/v1/user/update/profile",
       data,
       {
         withCredentials: true,
@@ -66,8 +103,8 @@ export const updateProfile = (data) => async (dispatch) => {
 export const updatePassword = (data) => async (dispatch) => {
   dispatch(updateProfileSlice.actions.updatePasswordRequest());
   try {
-    const response = await axios.put(
-      "http://localhost:4000/api/v1/user/update/password",
+    const response = await updateProfileApi.put(
+      "/api/v1/user/update/password",
       data,
       {
         withCredentials: true,
