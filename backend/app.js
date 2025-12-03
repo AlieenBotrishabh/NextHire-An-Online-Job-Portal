@@ -19,7 +19,7 @@ const allowedOrigins = [
   "http://localhost:5173",
   "http://localhost:3000",
   "https://localhost:5173",
-  "https://frontend-dk672vjz9-alieenbotrishabhs-projects.vercel.app",
+  "https://frontend-theta-olive-55.vercel.app",
   // Add your frontend production URL here when you deploy
 ];
 if (process.env.VERCEL_URL) {
