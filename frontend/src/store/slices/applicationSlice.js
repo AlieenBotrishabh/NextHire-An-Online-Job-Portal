@@ -3,7 +3,7 @@ import axios from "axios";
 
 // Create axios instance for application operations
 const applicationApi = axios.create({
-  baseURL: "https://next-hire-an-online-job-portal-37t9-7f5ws4gd2.vercel.app",
+  baseURL: "https://next-hire-an-online-job-portal-37t9-8ed6ys7gf.vercel.app",
   withCredentials: true,
   timeout: 10000,
   headers: {

@@ -29,7 +29,7 @@ export const newsLetterCron = () => {
         await job.save();
       } catch (error) {
         console.log("ERROR IN NODE CRON CATCH BLOCK");
-        return next(console.error(error || "Some error in Cron."));
+        console.error("Error in newsLetterCron:", error);
       }
     }
   });

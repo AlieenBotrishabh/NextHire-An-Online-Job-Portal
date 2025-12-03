@@ -4,7 +4,7 @@ import axios from "axios";
 // Create axios instance for user operations
 const userApi = axios.create({
   baseURL: process.env.NODE_ENV === 'production' 
-    ? "https://next-hire-an-online-job-portal-37t9.vercel.app" 
+    ? "https://next-hire-an-online-job-portal-37t9-8ed6ys7gf.vercel.app" 
     : "http://localhost:4000",
   withCredentials: true,
   timeout: 10000,
